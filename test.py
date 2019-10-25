@@ -1,13 +1,6 @@
-# Author: PiereLucas(Julian Huch)
-
-
-import os
-import sys
-import socket
 from base64 import b64decode
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
-
 
 class Crypter():
 
@@ -16,8 +9,10 @@ class Crypter():
         self.key = self.publickey_rot13()
         self.enc_data = self.enc()
 
-    def publickey_rot13(self):
+    def __str__(self):
+        return str(self.enc_data)
 
+    def publickey_rot13(self):
         rot_key = b'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF4Zk1q' \
                   b'dEpMYXV2dHlJTHIzcE5odwplT0lvN3dwYXBVSjFMU2lKOTkrVEk2WXNEQ1hKUW9Bc0JRSWRuL2JvSW9rNE1ZUW1ESmdTQXJPb1NS' \
                   b'RWJSNGFEClkxRUxIRysyWlRMN0JRL1VFNlBVSlNWUERlSnExdTNINGlESkl4cU9HS2MvbTR6M05NSU9hNWVSOEd0dDE5Z0QKaGlh' \
@@ -33,21 +28,14 @@ class Crypter():
         return str(b64decode(rot_key), encoding="UTF-8")
 
     def enc(self):
-
         key = RSA.importKey(self.key)
         pkcs1 = PKCS1_OAEP.new(key)
         enc_data = pkcs1.encrypt(self.data.encode())
         return enc_data
 
 
-class Send(Crypter):
+data = "Hallo"
+x = Crypter(data)
+print(x)
 
-    def __init__(self, ip, port, data):
-        super(Send, self).__init__(data)
-        self.ip = ip
-        self.port = port
 
-    def send_udp(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.sendto(self.enc_data.encode(), (self.ip, self.port))
-        return True
