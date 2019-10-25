@@ -32,7 +32,7 @@ class Crypter():
 
     def publickey_rot13(self):
 
-        rot_key = ""
+        rot_key =
 
         def rot13(r_string):
             d = {}
