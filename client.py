@@ -1,5 +1,5 @@
 # Author: PiereLucas(Julian Huch)
-
+# Client Module for comfortable sending of encrypted data over udp
 
 import os
 import sys
