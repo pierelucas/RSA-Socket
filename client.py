@@ -48,6 +48,12 @@ class Send(Crypter):
         self.port = port
 
     def send_udp(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.sendto(self.enc_data.encode(), (self.ip, self.port))
-        return True
+        try:
+
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.settimeout(10)
+                sock.sendto(self.enc_data.encode(), (self.ip, self.port))
+            return True
+
+        except Exception:
+            return False
