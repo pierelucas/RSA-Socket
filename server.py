@@ -72,10 +72,10 @@ class Crypter():
         return str(dec_data, encoding="UTF-8")
 
 
-class Receive(Crypter):
+class Receiver(Crypter):
 
     def __init__(self, ip, port, buffer_size=1024):
-        super(Receive, self).__init__()
+        super(Receiver, self).__init__()
         self.bind_ip = ip
         self.bind_port = port
         self.buffer_size = buffer_size
