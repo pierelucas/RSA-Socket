@@ -9,6 +9,9 @@ from Crypto.Cipher import PKCS1_OAEP
 
 
 class Crypter():
+    """
+    Crypter class for decoding the privatekey and decrypt the received data
+    """
 
     def __init__(self):
         self.key = ""
@@ -19,6 +22,7 @@ class Crypter():
         self.privatekey_dec()
 
     def privatekey_dec(self):
+        """ Function encode the privatekey """
 
         key = b'LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlKS0FJQkFBS0NBZ0VBeGZNanRKTGF1dnR5SUxyM3BOaHdlT0lvN3dwYXBV' \
               b'SjFMU2lKOTkrVEk2WXNEQ1hKClFvQXNCUUlkbi9ib0lvazRNWVFtREpnU0FyT29TUkViUjRhRFkxRUxIRysyWlRMN0JRL1VFNlBVSlNW' \
@@ -66,6 +70,7 @@ class Crypter():
         self.key = str(b64decode(key), encoding="UTF-8")
 
     def dec(self, data):
+        """ function decrypt the received data """
 
         key = RSA.importKey(self.key)
         pkcs1 = PKCS1_OAEP.new(key)
@@ -74,6 +79,7 @@ class Crypter():
 
 
 class Receiver(Crypter):
+    """ The main Receiver class. Subclass from Crypter """
 
     def __init__(self, ip, port, buffer_size=1024):
         super(Receiver, self).__init__()
@@ -82,6 +88,7 @@ class Receiver(Crypter):
         self.buffer_size = buffer_size
 
     def start_receive(self):
+        """ Receive udp data """
 
         try:
 
