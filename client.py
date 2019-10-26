@@ -9,6 +9,9 @@ from Crypto.Cipher import PKCS1_OAEP
 
 
 class Crypter():
+    """
+    Crypter class for decoding the publickey and encrypt the data-string
+    """
 
     def __init__(self, data):
         self.data = data
@@ -16,6 +19,7 @@ class Crypter():
         self.enc_data = self.enc()
 
     def publickey_dec(self):
+        """ Function decode the publickey """
 
         rot_key = b'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF4Zk1q' \
                   b'dEpMYXV2dHlJTHIzcE5odwplT0lvN3dwYXBVSjFMU2lKOTkrVEk2WXNEQ1hKUW9Bc0JRSWRuL2JvSW9rNE1ZUW1ESmdTQXJPb1NS' \
@@ -32,6 +36,7 @@ class Crypter():
         return str(b64decode(rot_key), encoding="UTF-8")
 
     def enc(self):
+        """ Function encrypt the data-string """
 
         key = RSA.importKey(self.key)
         pkcs1 = PKCS1_OAEP.new(key)
@@ -40,6 +45,9 @@ class Crypter():
 
 
 class Send(Crypter):
+    """
+    Send class subclass from Crypter, its just send the encrypted data over udp to the given IP:PORT
+    """
 
     def __init__(self, ip, port, data):
         super(Send, self).__init__(data)
@@ -47,6 +55,8 @@ class Send(Crypter):
         self.port = port
 
     def send_udp(self):
+        """ Send data over udp """
+
         try:
 
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
