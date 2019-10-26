@@ -13,10 +13,10 @@ class Crypter():
 
     def __init__(self, data):
         self.data = data
-        self.key = self.publickey_rot13()
+        self.key = self.publickey_dec()
         self.enc_data = self.enc()
 
-    def publickey_rot13(self):
+    def publickey_dec(self):
 
         rot_key = b'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQ0lqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FnOEFNSUlDQ2dLQ0FnRUF4Zk1q' \
                   b'dEpMYXV2dHlJTHIzcE5odwplT0lvN3dwYXBVSjFMU2lKOTkrVEk2WXNEQ1hKUW9Bc0JRSWRuL2JvSW9rNE1ZUW1ESmdTQXJPb1NS' \
@@ -52,7 +52,7 @@ class Send(Crypter):
 
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                 sock.settimeout(10)
-                sock.sendto(self.enc_data.encode(), (self.ip, self.port))
+                sock.sendto(self.enc_data, (self.ip, self.port))
             return True
 
         except Exception:
