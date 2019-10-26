@@ -1,8 +1,7 @@
 # Author: PiereLucas(Julian Huch)
 # Client Module for comfortable sending of encrypted data over udp
 
-import os
-import sys
+
 import socket
 from base64 import b64decode
 from Crypto.PublicKey import RSA
