@@ -1,6 +1,7 @@
 # Author: PiereLucas(Julian Huch)
 
 
+import sys
 import socket
 from base64 import b64decode
 from Crypto.PublicKey import RSA
@@ -81,10 +82,15 @@ class Receiver(Crypter):
         self.buffer_size = buffer_size
 
     def start_receive(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.bind((self.bind_ip, self.bind_port))
-            data, src_ip = sock.recvfrom(bufsize=self.buffer_size)
-        dec_data = self.dec(data)
-        return dec_data, src_ip[0]
 
+        try:
 
+            with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+                sock.bind((self.bind_ip, self.bind_port))
+                data, src_ip = sock.recvfrom(bufsize=self.buffer_size)
+            dec_data = self.dec(data)
+            return dec_data, src_ip[0]
+
+        except Exception as ex:
+            print("Error in socket :", ex)
+            sys.exit(1)
